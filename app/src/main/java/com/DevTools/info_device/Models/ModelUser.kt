@@ -6,10 +6,6 @@ class ModelUser {
     var email="";
 
 
-    fun ModelUser(name: String, email: String) {
-        this.name = name
-        this.email = email
-    }
 
 
 }
