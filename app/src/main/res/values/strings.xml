@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">info_device</string>
+    <string name="Categories">Categories</string>
+
 </resources>

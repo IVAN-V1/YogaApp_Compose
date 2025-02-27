@@ -1,23 +1,13 @@
 package com.DevTools.info_device.View
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,98 +15,58 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarColors
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.DevTools.info_device.Components.Navigation_Bar
+import com.DevTools.info_device.Components.Component_Card
+import com.DevTools.info_device.Components.Component_Navigation_Bar
+import com.DevTools.info_device.Components.Component_Text
 import com.DevTools.info_device.R
-import kotlinx.coroutines.launch
+import com.DevTools.info_device.ui.theme.Info_deviceTheme
 
 
-class HomePage : ComponentActivity() {
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Home_screen(NavigationToActivity: () -> Unit) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val NavigaionBar_ = Component_Navigation_Bar()
+
+    //obtener context de la actividad
+    val context = LocalContext.current
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
-        setContent {
-
-            CenterAlignedTopAppBarExample()
-        }
-
-
-    }
-
-
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun CenterAlignedTopAppBarExample() {
-        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-        val NavigaionBar_ = Navigation_Bar()
+    Info_deviceTheme {
 
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+
             topBar = {
                 CenterAlignedTopAppBar(
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -167,26 +117,21 @@ class HomePage : ComponentActivity() {
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp) // Espaciado uniforme
                 ) {
-                    Text(
-                        text = "Find your",
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Light,
-                        color = Color.Black,
-                    )
+
+                    val text= Component_Text()
 
 
-                    Text(
-                        text = "Workout Class",
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
-                    )
+                    text.Component_text_Light("Find your")
 
-                    NonEditableSearchBar()
+                    text.Component_text_Bold("Workout Class",30)
+
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    ActivityCard()
+
+                    val card_= Component_Card()
+                    card_.ActivityCard(NavigationToActivity)
+
 
                     Spacer(modifier = Modifier.height(12.dp))
 
@@ -206,59 +151,12 @@ class HomePage : ComponentActivity() {
                 }
             }
         }
+
     }
 
+
+
 }
-
-@Composable
-fun ActivityCard() {
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFE6F5FF)), // Fondo azul claro
-        shape = RoundedCornerShape(16.dp), // Bordes redondeados
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
-                Text(
-                    text = "Today's \nactivity",
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1A1A1A) // Color oscuro para el título
-                )
-
-                Spacer(modifier = Modifier.height(16.dp)) // Reduce espacio entre el título y la hora
-
-                Text(
-                    text = "8.00 AM - 1.30 PM",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color(0xFF8A8A8A) // Color gris claro para la hora
-                )
-            }
-
-            Image(
-                painter = painterResource(id = R.drawable.jogging1), // Sustituye con tu icono de zapatillas
-                contentDescription = "Activity Icon",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .alpha(0.5f) // Hace el icono más tenue
-            )
-        }
-    }
-}
-
 
 
 @Composable
@@ -266,17 +164,15 @@ fun RecomendationsClass(){
 
     Row (Modifier.fillMaxWidth(), Arrangement.SpaceBetween){
 
-        Text("Recomendations class",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black)
+        val text = Component_Text()
+
+        text.Component_text_Bold("Recomendations Class",20)
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Text("See all",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color(0xFF48D0FE))
+
+        text.Component_text__mediun("See all")
+
 
     }
 
@@ -286,6 +182,7 @@ fun RecomendationsClass(){
 
 @Composable
 fun YogaClassCard() {
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -313,6 +210,7 @@ fun YogaClassCard() {
             Spacer(modifier = Modifier.width(16.dp))
 
             Column(modifier = Modifier.weight(1f)) {
+
                 Text(
                     text = "Yoga Class",
                     fontSize = 18.sp,
@@ -356,17 +254,14 @@ fun Categories(){
 
     Row (Modifier.fillMaxWidth(), Arrangement.SpaceBetween){
 
-        Text("Categories",
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black)
+        val text= Component_Text()
+
+        text.Component_text_Bold("Categories",20)
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Text("See all",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color(0xFF48D0FE))
+        text.Component_text__mediun(R.string.Categories.toString())
+
 
     }
 
@@ -375,10 +270,7 @@ fun Categories(){
 
 @Composable
 fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color) {
-
-    val context = LocalContext.current
-
-
+    val Tex_bold = Component_Text()
 
     Card(
         modifier = Modifier
@@ -392,11 +284,7 @@ fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color) {
             if (imageRes.let { it == R.drawable.war }) {
 
 
-
-                }
-
-
-
+            }
 
 
 
@@ -410,12 +298,9 @@ fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color) {
         ) {
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = title,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
+
+            Tex_bold.Component_text_Bold(title,18)
+
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -446,32 +331,3 @@ fun WorkoutCardList() {
 }
 
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun NonEditableSearchBar() {
-
-        SearchBar(
-            modifier = Modifier.fillMaxWidth(),
-            query = "", // Texto vacío porque no es editable
-            onQueryChange = { /* No hacer nada */ }, // No permitir cambios
-            onSearch = { /* No hacer nada */ }, // No permitir búsqueda
-            active = false, // Siempre inactivo
-            onActiveChange = { /* No hacer nada */ }, // No permitir activación
-            placeholder = {
-                Text("Search...")
-                          // Placeholder del campo de búsqueda
-            },
-
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Saeach",
-                )
-            },
-
-            enabled = false // Deshabilitar la interacción
-        ) {
-            // Sin contenido adicional
-        }
-    }

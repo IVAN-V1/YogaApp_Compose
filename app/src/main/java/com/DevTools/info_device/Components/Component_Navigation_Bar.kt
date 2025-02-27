@@ -11,10 +11,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.DevTools.info_device.R
 
-class Navigation_Bar {
+class Component_Navigation_Bar {
 
+    @Preview
     @Composable
     fun NavigaionBar_(){
 
