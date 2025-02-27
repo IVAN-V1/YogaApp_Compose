@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.DevTools.info_device.View.Activity_page_screen
 import com.DevTools.info_device.View.Home_screen
+import com.DevTools.info_device.View.Warm_screen
 import com.DevTools.info_device.View.Initial_Screen
 
 
@@ -24,15 +25,28 @@ fun NavigatioWrapper () {
 
         }
 
-        composable<Home_page>{
+      composable<Home_page> {
+          Home_screen(
+              NavigationToActivity = { navController.navigate(Activity_page) },
+              NavigationToWarmUp = { navController.navigate(Warm_up_page) }
+          )
+      }
 
-            Home_screen{navController.navigate(Activity_page) }
-
-        }
 
         composable<Activity_page>{
 
             Activity_page_screen{navController.popBackStack()}
+
+
+        }
+
+
+
+
+        composable<Warm_up_page>{
+
+            Warm_screen()
+
 
         }
 

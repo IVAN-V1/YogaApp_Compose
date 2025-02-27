@@ -54,7 +54,7 @@ import com.DevTools.info_device.ui.theme.Info_deviceTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Home_screen(NavigationToActivity: () -> Unit) {
+fun Home_screen(NavigationToActivity: () -> Unit, NavigationToWarmUp: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val NavigaionBar_ = Component_Navigation_Bar()
 
@@ -80,6 +80,7 @@ fun Home_screen(NavigationToActivity: () -> Unit) {
                             overflow = TextOverflow.Ellipsis
                         )
                     },
+
                     navigationIcon = {
                         IconButton(onClick = { /* do something */ }) {
                             Icon(
@@ -147,7 +148,7 @@ fun Home_screen(NavigationToActivity: () -> Unit) {
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    WorkoutCardList()
+                    WorkoutCardList(NavigationToWarmUp)
                 }
             }
         }
@@ -269,7 +270,7 @@ fun Categories(){
 
 
 @Composable
-fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color) {
+fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color, NavigationToActivity: () -> Unit) {
     val Tex_bold = Component_Text()
 
     Card(
@@ -283,6 +284,7 @@ fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color) {
 
             if (imageRes.let { it == R.drawable.war }) {
 
+             NavigationToActivity()
 
             }
 
@@ -317,16 +319,16 @@ fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color) {
 }
 
 @Composable
-fun WorkoutCardList() {
+fun WorkoutCardList(NavigationToActivity: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        WorkoutCard("Warm up", R.drawable.war, Color(0xFFE5F3FF))  // Azul claro
-        WorkoutCard("Yoga", R.drawable.yoga_model, Color(0xFFF3F7FF))       // Blanco azulado
-        WorkoutCard("Squats", R.drawable.squard, Color(0xFFFFE8D6))    // Beige claro
+        WorkoutCard("Warm up", R.drawable.war, Color(0xFFE5F3FF),NavigationToActivity)  // Azul claro
+        WorkoutCard("Yoga", R.drawable.yoga_model, Color(0xFFF3F7FF),NavigationToActivity)       // Blanco azulado
+        WorkoutCard("Squats", R.drawable.squard, Color(0xFFFFE8D6),NavigationToActivity)    // Beige claro
     }
 }
 

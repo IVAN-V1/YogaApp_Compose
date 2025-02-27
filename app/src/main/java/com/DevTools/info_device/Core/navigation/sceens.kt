@@ -13,6 +13,9 @@ object Home_page
 @Serializable
 object Activity_page
 
+@Serializable
+object Warm_up_page
+
 
 
 
