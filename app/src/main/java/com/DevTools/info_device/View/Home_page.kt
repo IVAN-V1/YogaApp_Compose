@@ -1,7 +1,9 @@
 package com.DevTools.info_device.View
 
+import Component_SearchBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,17 +24,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.DevTools.info_device.Components.Component_Card
 import com.DevTools.info_device.Components.Component_Navigation_Bar
 import com.DevTools.info_device.Components.Component_Text
@@ -60,6 +70,8 @@ fun Home_screen(NavigationToActivity: () -> Unit, NavigationToWarmUp: () -> Unit
 
     //obtener context de la actividad
     val context = LocalContext.current
+
+    val component_Search= Component_SearchBar()
 
 
     Info_deviceTheme {
@@ -125,6 +137,10 @@ fun Home_screen(NavigationToActivity: () -> Unit, NavigationToWarmUp: () -> Unit
                     text.Component_text_Light("Find your")
 
                     text.Component_text_Bold("Workout Class",30)
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    component_Search.Material3SearchBar()
 
 
                     Spacer(modifier = Modifier.height(12.dp))
@@ -270,7 +286,7 @@ fun Categories(){
 
 
 @Composable
-fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color, NavigationToActivity: () -> Unit) {
+fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color, NavigationToWarmup: () -> Unit) {
     val Tex_bold = Component_Text()
 
     Card(
@@ -281,31 +297,21 @@ fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color, Navigation
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         onClick = {
+            if (imageRes == R.drawable.war) {
 
-            if (imageRes.let { it == R.drawable.war }) {
-
-             NavigationToActivity()
+                NavigationToWarmup()
 
             }
-
-
-
         }
-
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-
-
-            Tex_bold.Component_text_Bold(title,18)
-
-
+            Tex_bold.Component_text_Bold(title, 18)
             Spacer(modifier = Modifier.height(8.dp))
-
             Image(
                 painter = painterResource(id = imageRes),
                 contentDescription = title,
@@ -316,20 +322,24 @@ fun WorkoutCard(title: String, imageRes: Int, backgroundColor: Color, Navigation
             )
         }
     }
-}
 
+
+
+}
 @Composable
-fun WorkoutCardList(NavigationToActivity: () -> Unit) {
+fun WorkoutCardList(NavigationToWarmup: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        WorkoutCard("Warm up", R.drawable.war, Color(0xFFE5F3FF),NavigationToActivity)  // Azul claro
-        WorkoutCard("Yoga", R.drawable.yoga_model, Color(0xFFF3F7FF),NavigationToActivity)       // Blanco azulado
-        WorkoutCard("Squats", R.drawable.squard, Color(0xFFFFE8D6),NavigationToActivity)    // Beige claro
+        WorkoutCard("Warm up", R.drawable.war, Color(0xFFE5F3FF),NavigationToWarmup)  // Azul claro
+        WorkoutCard("Yoga", R.drawable.yoga_model, Color(0xFFF3F7FF),NavigationToWarmup)       // Blanco azulado
+        WorkoutCard("Squats", R.drawable.squard, Color(0xFFFFE8D6),NavigationToWarmup)    // Beige claro
     }
 }
+
+
 
 

@@ -1,6 +1,5 @@
 package com.DevTools.info_device.View
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -96,10 +95,12 @@ fun Activity_page_screen(NavigationToBack :() -> Unit) {
 
                 )
             }
+
+
         ) { innerPadding ->
 
 
-            Box(modifier =
+            Column (modifier =
 
             Modifier
                 .padding(innerPadding)
